@@ -4,7 +4,10 @@
 alias ls='ls -F --color=always'
 
 export LANG=ja_JP.UTF-8
-source /etc/zsh_command_not_found
+
+if [ -f /etc/zsh_command_not_found ]; then
+    source /etc/zsh_command_not_found
+fi
 
 HISTFILE=${HOME}/.zsh_history          	# change history file for root/sudo
 HISTSIZE=100000                         # メモリ内の履歴の数
@@ -15,8 +18,9 @@ setopt hist_reduce_blanks               # 余分なスペースを削除
 setopt share_history                    # ヒストリの共有 for GNU Screen
 setopt hist_no_store                    # historyコマンドは登録しない
 setopt hist_ignore_space                # コマンド行先頭が空白の時登録しない
-
 setopt extended_glob 
+
+autoload -Uz is-at-least
 
 ###############################################################################
 # 基本設定
@@ -100,6 +104,35 @@ alias bell='echo -ne "\a"'              # bell
 alias reset='echo -ne "\eP\ec\e\\" && =reset && clear' # reset
 
 alias lshw='lshw -disable scsi'         # lshw
+
+###############################################################################
+# サフィックスエイリアス
+if is-at-least 4.2; then
+    alias -s {tar.gz,tar.Z,tgz,tar,gz,zip,tar,bz2,tbz2,bz2,lzh,rar,Z}='muncompress'
+fi
+
+muncompress () {
+    for file in "$@"
+      do
+      case $file in
+          *.tar.gz ) tar xzvf   $file ;;
+          *.tar.Z  ) tar xzvf   $file ;;
+          *.tgz    ) tar xzvf   $file ;;
+          *.tar    ) tar xvf    $file ;;
+          *.gz     ) gunzip     $file ;;
+          *.zip    ) unzip      $file ;;
+          *.tar.bz2) tar xjvf   $file ;;
+          *.tbz2   ) tar xjvf   $file ;;
+          *.bz2    ) bzip2 -d   $file ;;
+          *.lzh    ) lha x      $file ;;
+          *.rar    ) rar x      $file ;;
+          *.Z      ) uncompress $file ;;
+	      *)
+              echo "Can't decide how to uncompress $file."
+              ;;
+		esac
+	done
+}
 
 # Local Variables:
 # mode: sh
