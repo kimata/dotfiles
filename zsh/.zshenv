@@ -18,8 +18,10 @@ setopt hist_reduce_blanks               # 余分なスペースを削除
 setopt share_history                    # ヒストリの共有 for GNU Screen
 setopt hist_no_store                    # historyコマンドは登録しない
 setopt hist_ignore_space                # コマンド行先頭が空白の時登録しない
-setopt extended_glob 
+setopt no_flow_control			# フローコントロール(^Q,^S)を無効
+setopt extended_glob
 
+autoload -Uz zmv
 autoload -Uz is-at-least
 
 ###############################################################################
