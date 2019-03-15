@@ -33,6 +33,9 @@ if [ -f /etc/zsh_command_not_found ]; then
     source /etc/zsh_command_not_found
 fi
 
+if [ ! -f /usr/share/autojump/autojump.sh ]; then
+    sudo apt install autojump
+fi
 . /usr/share/autojump/autojump.sh
 
 ################################################################################
@@ -132,6 +135,9 @@ muncompress () {
 ################################################################################
 # zplug
 ################################################################################
+if [ ! -f ~/.zplug/init.zsh ]; then
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+fi
 source ~/.zplug/init.zsh
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-history-substring-search"
