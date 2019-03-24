@@ -155,12 +155,27 @@ zplug "plugins/autojump",   from:oh-my-zsh
 zplug "modules/prompt",     from:prezto
 
 zplug "dracula/zsh", as:theme
+
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
+
+POWERLEVEL9K_SHOW_CHANGESET=true
+POWERLEVEL9K_CHANGESET_HASH_LENGTH=6
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs)
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=" %% "
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
+POWERLEVEL9K_DIR_ETC_FOREGROUND="195"
+POWERLEVEL9K_DIR_HOME_FOREGROUND="195"
+POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="195"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="195"
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
+POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_first_and_last"
+ZSH_THEME="powerlevel9k/powerlevel9k"
 
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zaw"
-
-zplug "b-ryan/powerline-shell"
 
 zplug check || zplug install
 zplug load
@@ -183,11 +198,6 @@ setopt prompt_subst
 
 
 # POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND=$(( (0x$(hostname|md5sum|cut -c1-2) % 56) + 184)) # ホスト名で色を変える
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs)
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=" %% "
 
 ################################################################################
 # カラー
