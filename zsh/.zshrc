@@ -23,6 +23,11 @@ setopt correct
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
+zstyle ':filter-select' case-insensitive yes
+zstyle ':filter-select' extended-search yes
+zstyle ':filter-select' hist-find-no-dups yes
+zstyle ':filter-select' rotate-list yes
+
 bindkey -e
 bindkey "^[[Z" reverse-menu-complete
 
@@ -132,6 +137,7 @@ muncompress () {
 	done
 }
 
+
 ################################################################################
 # zplug
 ################################################################################
@@ -147,13 +153,39 @@ zplug "zsh-users/zsh-completions"
 zplug "plugins/git",   	    from:oh-my-zsh
 zplug "plugins/autojump",   from:oh-my-zsh
 zplug "modules/prompt",     from:prezto
-zplug 'dracula/zsh', as:theme
 
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zaw", defer:2
+zplug "dracula/zsh", as:theme
+zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
+
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zsh-users/zaw"
+
+zplug "b-ryan/powerline-shell"
 
 zplug check || zplug install
 zplug load
+
+
+################################################################################
+# プロンプト
+################################################################################
+setopt prompt_subst
+
+# ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
+# ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%k%b%K{${bkg}}%B%F{green}%}]"
+# ZSH_THEME_GIT_PROMPT_DIRTY=" %{%F{red}%}*%{%f%k%b%}"
+# ZSH_THEME_GIT_PROMPT_CLEAN=""
+
+# PROMPT='%{%f%k%b%}
+# %{%K{${bkg}}%B%F{${ucolor}}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{${bkg}}%}%~%{%B%F{green}%}$(git_prompt_info)%E%{%f%k%b%}
+# %{%K{${bkg}}%}%{%K{${bkg}}%} %B%# %{%f%k%b%}%b'
+# RPROMPT=''
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs)
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=" %% "
 
 ################################################################################
 # カラー
@@ -180,21 +212,6 @@ ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=198'
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=215'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=215'
 
-################################################################################
-# プロンプト
-################################################################################
-
-setopt prompt_subst
-
-ZSH_THEME_GIT_PROMPT_PREFIX=" [%{%B%F{blue}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{%f%k%b%K{${bkg}}%B%F{green}%}]"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{%F{red}%}*%{%f%k%b%}"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-
-PROMPT='%{%f%k%b%}
-%{%K{${bkg}}%B%F{${ucolor}}%}%n%{%B%F{blue}%}@%{%B%F{cyan}%}%m%{%B%F{green}%} %{%b%F{yellow}%K{${bkg}}%}%~%{%B%F{green}%}$(git_prompt_info)%E%{%f%k%b%}
-%{%K{${bkg}}%}%{%K{${bkg}}%} %B%# %{%f%k%b%}%b'
-RPROMPT=''
 
 ################################################################################
 # Keychain 等
