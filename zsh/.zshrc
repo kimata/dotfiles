@@ -182,7 +182,7 @@ setopt prompt_subst
 # RPROMPT=''
 
 
-POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND=$(( (0x$(hostname|md5sum|cut -c1-2) + 1) % 231)) # ホスト名で色を変える
+POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND=$(( (0x$(hostname|md5sum|cut -c1-2) + 9) % 7)) # ホスト名で色を変える
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs)
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
