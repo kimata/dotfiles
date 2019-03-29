@@ -147,6 +147,7 @@
 (package-install 'perl-mode)
 (package-install 'yaml-mode)
 (package-install 'typescript-mode)
+(package-install 'vue-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; その他
