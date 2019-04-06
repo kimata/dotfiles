@@ -67,9 +67,6 @@
 ; 履歴を永続化
 (savehist-mode 1)
 
-; やり直しの取り消し
-(package-install 'redo+)
-
 ; スペースの自動挿入
 (package-install 'electric-spacing)
 
@@ -143,11 +140,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ファイルタイプ別のメジャーモード
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-install 'flycheck)
 (package-install 'ruby-mode)
 (package-install 'perl-mode)
 (package-install 'yaml-mode)
+(package-install 'css-mode)
 (package-install 'typescript-mode)
 (package-install 'vue-mode)
+(setq js-indent-level 2)
+
+(package-install 'rust-mode)
+(setq rust-format-on-save t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; その他
