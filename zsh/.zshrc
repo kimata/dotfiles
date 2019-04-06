@@ -144,6 +144,8 @@ muncompress () {
 # zplug
 ################################################################################
 if [ ! -f ~/.zplug/init.zsh ]; then
+    echo "Installing zplug..."
+    unsetopt BG_NICE
     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 fi
 source ~/.zplug/init.zsh
