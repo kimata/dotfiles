@@ -43,7 +43,11 @@ if [ ! -f /usr/share/autojump/autojump.sh ]; then
 fi
 . /usr/share/autojump/autojump.sh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ ! -f ~/.fzf.zsh ]; then
+    git clone https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+fi
+source ~/.fzf.zsh
 
 ################################################################################
 # エイリアス

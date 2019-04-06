@@ -67,8 +67,6 @@
 ; 履歴を永続化
 (savehist-mode 1)
 
-; やり直しの取り消し
-(package-install 'redo+)
 
 ; スペースの自動挿入
 (package-install 'electric-spacing)
