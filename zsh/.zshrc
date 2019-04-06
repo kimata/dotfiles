@@ -43,6 +43,8 @@ if [ ! -f /usr/share/autojump/autojump.sh ]; then
 fi
 . /usr/share/autojump/autojump.sh
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 ################################################################################
 # エイリアス
 if (which dircolors >& /dev/null) then	# dircolors
@@ -60,7 +62,7 @@ if (which colordiff >& /dev/null) then	# diff
     alias diff=colordiff
 fi
 
-for editor in vim vi			# editor
+for editor in emacs vim vi		# editor
 do
   if (which $editor >& /dev/null) then
       export EDITOR=$editor
@@ -142,6 +144,8 @@ muncompress () {
 # zplug
 ################################################################################
 if [ ! -f ~/.zplug/init.zsh ]; then
+    echo "Installing zplug..."
+    unsetopt BG_NICE
     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 fi
 source ~/.zplug/init.zsh
@@ -155,6 +159,7 @@ zplug "plugins/autojump",   from:oh-my-zsh
 zplug "modules/prompt",     from:prezto
 
 zplug "dracula/zsh", as:theme
+
 
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 
@@ -173,6 +178,7 @@ POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="195"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
 POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_first_and_last"
 ZSH_THEME="powerlevel9k/powerlevel9k"
+
 
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zaw"
@@ -260,3 +266,44 @@ fi
 # mode: sh
 # End:
 ###############################################################################
+
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+export FZF_TMUX=1
+
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+
+fbr() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+j() {
+    if [[ "$#" -ne 0 ]]; then
+        cd $(autojump $@)
+        return
+    fi
+    cd "$(autojump -s | sed '/_____/Q; s/^[0-9,.:]*\s*//' |  fzf --height 40% --reverse --inline-info)" 
+}
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
