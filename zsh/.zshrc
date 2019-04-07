@@ -75,7 +75,7 @@ alias cp='nocorrect =cp -i'
 alias keychain='keychain --nogui'       # keychain
 
 if [[ ($EMACS_VERSION > 22.9) && ($SUDO_USER != root) ]] then # emacs
-    alias emacs='emacsclient -a =emacs -t' 
+    alias emacs='emacsclient -c -a ""'
 fi
 
 alias less='less -R'                    # less
@@ -158,6 +158,9 @@ zplug "modules/prompt",     from:prezto
 
 zplug "dracula/zsh", as:theme
 
+# POWERLEVEL9K_MODE='nerdfont-complete'
+# POWERLEVEL9K_MODE='awesome-fontconfig'
+# POWERLEVEL9K_MODE='awesome-patched'
 
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 
@@ -225,7 +228,7 @@ fd() {
 fshow() {
   git log --graph --color=always \
       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --preview "" \
       --bind "ctrl-m:execute:
                 (grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
